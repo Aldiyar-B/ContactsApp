@@ -42,4 +42,9 @@ public class PhoneNumber
             _number = value;
         }
     }
+
+    public static implicit operator PhoneNumber(long v)
+    {
+        throw new NotImplementedException();
+    }
 }
