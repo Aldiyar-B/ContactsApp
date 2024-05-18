@@ -9,6 +9,7 @@ namespace ContactsAppUI
     {
         private List<Contact> _contacts = new List<Contact>();
         private string _filePath = "contacts.json";
+        private About About;
 
         public Form1()
         {
@@ -228,6 +229,19 @@ namespace ContactsAppUI
         private void button2_Click_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Проверяем, было ли создано окно "About" ранее
+            if (About == null || About.IsDisposed)
+            {
+                // Если нет, создаем новое окно "About"
+                About = new About();
+            }
+
+            // Показываем окно "About"
+            About.ShowDialog();
         }
     }
 }

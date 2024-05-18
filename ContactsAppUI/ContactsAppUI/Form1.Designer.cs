@@ -58,6 +58,7 @@
             button_Remove = new Button();
             ContactsListBox = new ListBox();
             button2 = new Button();
+            aboutToolStripMenuItem1 = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -132,7 +133,7 @@
             // 
             // helpToolStripMenuItem
             // 
-            helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { aboutToolStripMenuItem });
+            helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { aboutToolStripMenuItem, aboutToolStripMenuItem1 });
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             helpToolStripMenuItem.Size = new Size(55, 24);
             helpToolStripMenuItem.Text = "Help";
@@ -141,8 +142,9 @@
             // 
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
             aboutToolStripMenuItem.ShortcutKeys = Keys.F1;
-            aboutToolStripMenuItem.Size = new Size(157, 26);
+            aboutToolStripMenuItem.Size = new Size(224, 26);
             aboutToolStripMenuItem.Text = "About";
+            aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
             // label1
             // 
@@ -312,6 +314,12 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click_1;
             // 
+            // aboutToolStripMenuItem1
+            // 
+            aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
+            aboutToolStripMenuItem1.Size = new Size(224, 26);
+            aboutToolStripMenuItem1.Text = "About";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -379,5 +387,6 @@
         private Button button_Remove;
         private ListBox ContactsListBox;
         private Button button2;
+        private ToolStripMenuItem aboutToolStripMenuItem1;
     }
 }
