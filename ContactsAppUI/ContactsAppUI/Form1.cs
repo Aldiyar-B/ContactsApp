@@ -8,12 +8,22 @@ namespace ContactsAppUI
     public partial class Form1 : Form
     {
         private List<Contact> _contacts = new List<Contact>();
+        private string _filePath = "contacts.json";
 
         public Form1()
         {
             InitializeComponent();
             this.Text = "Главное окно программы";
             this.Size = new Size(800, 650);
+
+            LoadContacts();
+
+
+            txtVkId.TextChanged += new EventHandler(txtVkId_TextChanged);
+            // Добавляем обработчик для кнопки редактирования (карандашик)
+            button_Edit.Click += new EventHandler(button_Edit_Click);
+            // Добавляем обработчик для кнопки удаления
+            button_Remove.Click += new EventHandler(button_Remove_Click);
 
         }
 
@@ -27,43 +37,27 @@ namespace ContactsAppUI
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string vkId = txtVkId.Text; // Получение данных из TextBox
-
-            if (!string.IsNullOrEmpty(vkId))
+            Contact contact = new Contact
             {
-                Contact contact = new Contact();
-                contact.VkID = vkId;
+                Name = "Test",
+                Surname = "User",
+                Birthday = DateTime.Now,
+                Phone = new PhoneNumber("79139999999"),
+                Email = "test@example.com",
+                VkID = "testvk"
+            };
 
-                // Сохранение данных в файл
-                List<Contact> contacts = new List<Contact>();
-                contacts.Add(contact);
-                Serializer.SaveToFile(contacts, "contacts.json");
-
-                MessageBox.Show("Данные успешно сериализованы и сохранены в файл contacts.json");
-            }
-            else
-            {
-                MessageBox.Show("Введите VkID в TextBox");
-            }
-
-
+            _contacts.Add(contact);
+            SaveContacts();
+            UpdateContactsListBox();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            // Загрузка данных из файла
-            List<Contact> loadedContacts = Serializer.LoadFromFile("contacts.json");
-
-            if (loadedContacts.Count > 0)
-            {
-                Contact loadedContact = loadedContacts[0];
-                MessageBox.Show($"VkID из загруженного объекта: {loadedContact.VkID}");
-            }
-            else
-            {
-                MessageBox.Show("Нет данных для десериализации");
-            }
+            LoadContacts(); // Обновляем список контактов при нажатии на кнопку загрузки
         }
+
+
 
         private void textBoxContactInfo_TextChanged(object sender, EventArgs e)
         {
@@ -82,7 +76,8 @@ namespace ContactsAppUI
 
         private void txtVkId_TextChanged(object sender, EventArgs e)
         {
-
+            string searchText = txtVkId.Text.ToLower();
+            UpdateContactsListBox(searchText);
         }
 
         private void label1_Click_1(object sender, EventArgs e)
@@ -111,9 +106,10 @@ namespace ContactsAppUI
 
         private void ContactsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ContactsListBox.SelectedIndex != -1)
+            var contactsListBox = sender as ListBox;
+            if (contactsListBox != null && contactsListBox.SelectedIndex != -1)
             {
-                Contact selectedContact = _contacts[ContactsListBox.SelectedIndex];
+                Contact selectedContact = _contacts[contactsListBox.SelectedIndex];
                 textBox_Surname.Text = selectedContact.Surname;
                 textBox_Name.Text = selectedContact.Name;
                 textBox_Birthday.Text = selectedContact.Birthday.ToShortDateString(); // Преобразуем дату в строку и выводим в TextBox
@@ -123,7 +119,101 @@ namespace ContactsAppUI
             }
         }
 
+        private void SaveContacts()
+        {
+            try
+            {
+                Serializer.SaveToFile(_contacts, _filePath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при сохранении данных: {ex.Message}");
+            }
+        }
+
+        private void LoadContacts()
+        {
+            try
+            {
+                if (File.Exists(_filePath))
+                {
+                    _contacts = Serializer.LoadFromFile(_filePath);
+                    UpdateContactsListBox();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при загрузке данных: {ex.Message}");
+            }
+        }
+        private void UpdateContactsListBox(string searchText = "")
+        {
+            var contactsListBox = this.Controls["ContactsListBox"] as ListBox;
+            if (contactsListBox != null)
+            {
+                contactsListBox.Items.Clear();
+                foreach (var contact in _contacts)
+                {
+                    if (string.IsNullOrEmpty(searchText) || contact.Name.ToLower().Contains(searchText) || contact.Surname.ToLower().Contains(searchText))
+                    {
+                        contactsListBox.Items.Add(contact.Name);
+                    }
+                }
+            }
+        }
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            SaveContacts(); // Сохраняем контакты при закрытии формы
+            base.OnFormClosing(e);
+        }
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void button_Edit_Click(object sender, EventArgs e)
+        {
+            var contactsListBox = this.Controls["ContactsListBox"] as ListBox;
+            if (contactsListBox != null && contactsListBox.SelectedIndex != -1)
+            {
+                Contact selectedContact = _contacts[contactsListBox.SelectedIndex];
+
+                using (EditContactForm editContactForm = new EditContactForm(selectedContact))
+                {
+                    if (editContactForm.ShowDialog() == DialogResult.OK)
+                    {
+                        // Обновляем список контактов после редактирования
+                        SaveContacts();
+                        UpdateContactsListBox();
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Пожалуйста, выберите контакт для редактирования.");
+            }
+        }
+
+        private void button_Remove_Click(object sender, EventArgs e)
+        {
+            var contactsListBox = this.Controls["ContactsListBox"] as ListBox;
+            if (contactsListBox != null && contactsListBox.SelectedIndex != -1)
+            {
+                int selectedIndex = contactsListBox.SelectedIndex;
+                _contacts.RemoveAt(selectedIndex);
+
+                SaveContacts();
+                UpdateContactsListBox();
+            }
+            /*
+              else
+             {
+                 MessageBox.Show("Пожалуйста, выберите контакт для удаления.");
+             }
+            */
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
         {
 
         }

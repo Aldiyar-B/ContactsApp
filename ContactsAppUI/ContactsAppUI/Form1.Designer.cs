@@ -57,6 +57,7 @@
             button_Edit = new Button();
             button_Remove = new Button();
             ContactsListBox = new ListBox();
+            button2 = new Button();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -70,11 +71,11 @@
             // 
             // button1
             // 
-            button1.Location = new Point(647, 372);
+            button1.Location = new Point(462, 366);
             button1.Name = "button1";
-            button1.Size = new Size(94, 29);
+            button1.Size = new Size(170, 29);
             button1.TabIndex = 1;
-            button1.Text = "Сохранить";
+            button1.Text = "Добавить тестовый";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -211,6 +212,7 @@
             // 
             textBox_Surname.Location = new Point(441, 39);
             textBox_Surname.Name = "textBox_Surname";
+            textBox_Surname.ReadOnly = true;
             textBox_Surname.Size = new Size(314, 27);
             textBox_Surname.TabIndex = 10;
             // 
@@ -218,6 +220,7 @@
             // 
             textBox_Name.Location = new Point(441, 73);
             textBox_Name.Name = "textBox_Name";
+            textBox_Name.ReadOnly = true;
             textBox_Name.Size = new Size(314, 27);
             textBox_Name.TabIndex = 11;
             // 
@@ -225,6 +228,7 @@
             // 
             textBox_Birthday.Location = new Point(441, 107);
             textBox_Birthday.Name = "textBox_Birthday";
+            textBox_Birthday.ReadOnly = true;
             textBox_Birthday.Size = new Size(125, 27);
             textBox_Birthday.TabIndex = 12;
             // 
@@ -232,6 +236,7 @@
             // 
             textBox_Phone.Location = new Point(441, 140);
             textBox_Phone.Name = "textBox_Phone";
+            textBox_Phone.ReadOnly = true;
             textBox_Phone.Size = new Size(314, 27);
             textBox_Phone.TabIndex = 13;
             // 
@@ -239,6 +244,7 @@
             // 
             textBox_Email.Location = new Point(441, 177);
             textBox_Email.Name = "textBox_Email";
+            textBox_Email.ReadOnly = true;
             textBox_Email.Size = new Size(314, 27);
             textBox_Email.TabIndex = 14;
             // 
@@ -246,6 +252,7 @@
             // 
             textBox_Vk.Location = new Point(441, 210);
             textBox_Vk.Name = "textBox_Vk";
+            textBox_Vk.ReadOnly = true;
             textBox_Vk.Size = new Size(314, 27);
             textBox_Vk.TabIndex = 15;
             // 
@@ -271,6 +278,7 @@
             button_Edit.TabIndex = 17;
             button_Edit.TextImageRelation = TextImageRelation.ImageBeforeText;
             button_Edit.UseVisualStyleBackColor = true;
+            button_Edit.Click += button_Edit_Click;
             // 
             // button_Remove
             // 
@@ -282,6 +290,7 @@
             button_Remove.TabIndex = 18;
             button_Remove.TextImageRelation = TextImageRelation.ImageBeforeText;
             button_Remove.UseVisualStyleBackColor = true;
+            button_Remove.Click += button_Remove_Click;
             // 
             // ContactsListBox
             // 
@@ -293,11 +302,22 @@
             ContactsListBox.TabIndex = 19;
             ContactsListBox.SelectedIndexChanged += ContactsListBox_SelectedIndexChanged;
             // 
+            // button2
+            // 
+            button2.Location = new Point(661, 366);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 29);
+            button2.TabIndex = 20;
+            button2.Text = "Загрузить";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click_1;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 505);
+            Controls.Add(button2);
             Controls.Add(ContactsListBox);
             Controls.Add(button_Remove);
             Controls.Add(button_Edit);
@@ -358,5 +378,6 @@
         private Button button_Edit;
         private Button button_Remove;
         private ListBox ContactsListBox;
+        private Button button2;
     }
 }

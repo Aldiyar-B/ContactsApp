@@ -12,7 +12,7 @@ namespace ContactsAppUI
         {
             InitializeComponent();
             this.Text = "Добавить контакт";
-            this.Size = new Size(300, 300);
+            this.Size = new Size(400, 400);
 
             Label lblSurname = new Label { Text = "Фамилвия", Location = new Point(10, 10) };
             TextBox txtSurname = new TextBox { Location = new Point(150, 10), Width = 100 };
