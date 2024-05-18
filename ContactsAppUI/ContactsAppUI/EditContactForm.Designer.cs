@@ -220,7 +220,7 @@
             button_Save.TabIndex = 29;
             button_Save.Text = "Сохранить";
             button_Save.UseVisualStyleBackColor = true;
-            button_Save.Click += button_Save_Click_1;
+            button_Save.Click += button_Save_Click_2;
             // 
             // EditContactForm
             // 
@@ -243,6 +243,7 @@
             Controls.Add(menuStrip1);
             Name = "EditContactForm";
             Text = "EditContactForm";
+            Load += EditContactForm_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);

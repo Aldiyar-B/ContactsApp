@@ -200,10 +200,22 @@ namespace ContactsAppUI
             if (contactsListBox != null && contactsListBox.SelectedIndex != -1)
             {
                 int selectedIndex = contactsListBox.SelectedIndex;
-                _contacts.RemoveAt(selectedIndex);
+                Contact selectedContact = _contacts[selectedIndex];
 
-                SaveContacts();
-                UpdateContactsListBox();
+                // ѕоказать предупреждающее сообщение
+                DialogResult result = MessageBox.Show(
+                    $"¬ы действительно хотите удалить контакт: {selectedContact.Surname}?",
+                    "Warning",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                // ”далить контакт, если пользователь подтвердил
+                if (result == DialogResult.Yes)
+                {
+                    _contacts.RemoveAt(selectedIndex);
+                    SaveContacts();
+                    UpdateContactsListBox();
+                }
             }
             /*
               else
