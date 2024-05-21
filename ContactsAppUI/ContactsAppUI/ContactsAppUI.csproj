@@ -32,4 +32,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="md &quot;$(SolutionDir)InstallScripts\Release&quot;&#xD;&#xA;md &quot;$(SolutionDir)InstallScripts\Installers&quot;&#xD;&#xA;xcopy &quot;$(TargetDir)*.exe&quot; &quot;$(SolutionDir)InstallScripts\Release&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)*.dll&quot; &quot;$(SolutionDir)InstallScripts\Release&quot; /Y&#xD;&#xA;xcopy &quot;$(TargetDir)*.json&quot; &quot;$(SolutionDir)InstallScripts\Release&quot; /Y&#xD;&#xA;&quot;C:\Program Files (x86)\Inno Setup 5\ISCC.exe&quot; &quot;$(SolutionDir)InstallScripts\MyAppInstaller.iss&quot;&#xD;&#xA;" />
+  </Target>
+
 </Project>
